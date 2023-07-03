@@ -1,0 +1,66 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["jsonProtocol"]
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("POSTGRES_PRISMA_URL")
+  directUrl         = env("POSTGRES_URL_NON_POOLING")
+  shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model User {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  msAccessToken    String
+  msRefreshToken   String
+  msTokenExpiresAt DateTime
+
+  createdAt DateTime @default(now())
+}
+
+model Problem {
+  id           Int           @id @default(autoincrement())
+  name         String        @unique
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  solve_record SolveRecord[]
+  picUrl       String?
+  SourceBook   SourceBook?   @relation(fields: [sourceBookId], references: [id])
+  sourceBookId Int?
+}
+
+model SourceBook {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  problems  Problem[]
+  subject   Subject
+  pdfUrl    String
+  createdAt DateTime  @default(now())
+}
+
+model SolveRecord {
+  id         Int      @id @default(autoincrement())
+  problem    Problem  @relation(fields: [problemId], references: [id])
+  problemId  Int
+  oneNoteUrl String
+  result     Result
+  createdAt  DateTime @default(now())
+}
+
+enum Subject {
+  MATH // 数学
+  POLITICS // 政治
+  OPERATING_SYSTEM // 操作系统
+  COMPUTER_NETWORK // 计算机网络
+  DATA_STRUCTURE // 数据结构
+  POCO // 计算机组成原理
+  ENGLISH // 英语
+}
+
+enum Result {
+  CORRECT
+  FAILED
+}

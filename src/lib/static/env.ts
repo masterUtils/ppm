@@ -1,11 +1,12 @@
-function assertNonNull(key?: string) {
-  if (!key) {
-    throw new Error("env key is null");
+function assertEnv(key: string) {
+  const value = process.env[key];
+  if (!value) {
+    throw new Error(`Missing environment variable: ${key}`);
   }
-  return key;
+  return value;
 }
 
-export const msClientID = assertNonNull(process.env.MS_CLIENT_ID);
-export const msClientSecret = assertNonNull(process.env.MS_CLIENT_SECRET);
-export const password = assertNonNull(process.env.PASSWORD);
+export const msClientID = assertEnv('MS_CLIENT_ID');
+export const msClientSecret = assertEnv('MS_CLIENT_SECRET');
+export const password = assertEnv('PASSWORD');
 

@@ -6,7 +6,8 @@
     "dev": "prisma generate && next dev",
     "build": "prisma generate && prisma db push && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "studio": "pnpm exec prisma studio"
   },
   "dependencies": {
     "@azure/msal-common": "^13.2.0",
@@ -27,21 +28,28 @@
     "clsx": "^1.2.1",
     "form-data": "^4.0.0",
     "mdi-material-ui": "^7.7.0",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
     "next": "13.4.9",
+    "notistack": "^3.0.1",
     "nprogress": "^0.2.0",
     "prisma": "^4.16.2",
     "react": "18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-datepicker": "^4.15.0",
     "react-dom": "18.2.0",
-    "react-perfect-scrollbar": "^1.5.8"
+    "react-perfect-scrollbar": "^1.5.8",
+    "server-only": "^0.0.1",
+    "swr": "^2.2.0"
   },
   "devDependencies": {
-    "@types/node": "20.4.0",
+    "@types/node": "20.4.1",
     "@types/nprogress": "^0.2.0",
     "@types/react": "18.2.14",
+    "@types/react-dom": "^18.2.6",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
     "typescript": "5.1.6"
-  }
+  },
+  "packageManager": "pnpm@8.6.6"
 }

@@ -83,21 +83,15 @@ const renderStats = () => {
 
 const StatisticsCard = () => {
   return (
-    <Card>
+    <Card
+      sx={{height: '100%'}}
+    >
       <CardHeader
         title='Statistics Card'
         action={
           <IconButton size='small' aria-label='settings' className='card-more-options' sx={{ color: 'text.secondary' }}>
             <DotsVertical />
           </IconButton>
-        }
-        subheader={
-          <Typography variant='body2'>
-            <Box component='span' sx={{ fontWeight: 600, color: 'text.primary' }}>
-              Total 48.5% growth
-            </Box>{' '}
-            😎 this month
-          </Typography>
         }
         titleTypographyProps={{
           sx: {

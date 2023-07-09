@@ -1,115 +1,112 @@
 // ** MUI Imports
-import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import Button from '@mui/material/Button'
-import { useTheme } from '@mui/material/styles'
 import CardHeader from '@mui/material/CardHeader'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 
-// ** Icons Imports
-import DotsVertical from 'mdi-material-ui/DotsVertical'
-
 // ** Third Party Imports
-import { ApexOptions } from 'apexcharts'
+import {ApexOptions} from 'apexcharts'
 
 // ** Custom Components Imports
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
+import moment from "moment-timezone";
 
-const WeeklyOverview = () => {
-  // ** Hook
-  const theme = useTheme()
+export interface WeeklyOverviewProps {
+    learn: number[],
+    review: number[],
+    duration: number[]
+}
 
-  const options: ApexOptions = {
-    chart: {
-      parentHeightOffset: 0,
-      toolbar: { show: false }
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 9,
-        distributed: true,
-        columnWidth: '40%',
-        endingShape: 'rounded',
-        startingShape: 'rounded'
-      }
-    },
-    stroke: {
-      width: 2,
-      colors: [theme.palette.background.paper]
-    },
-    legend: { show: false },
-    grid: {
-      strokeDashArray: 7,
-      padding: {
-        top: -1,
-        right: 0,
-        left: -12,
-        bottom: 5
-      }
-    },
-    dataLabels: { enabled: false },
-    colors: [
-      theme.palette.background.default,
-      theme.palette.background.default,
-      theme.palette.background.default,
-      theme.palette.primary.main,
-      theme.palette.background.default,
-      theme.palette.background.default
-    ],
-    states: {
-      hover: {
-        filter: { type: 'none' }
-      },
-      active: {
-        filter: { type: 'none' }
-      }
-    },
-    xaxis: {
-      categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-      tickPlacement: 'on',
-      labels: { show: false },
-      axisTicks: { show: false },
-      axisBorder: { show: false }
-    },
-    yaxis: {
-      show: true,
-      tickAmount: 4,
-      labels: {
-        offsetX: -17,
-        formatter: value => `${value > 999 ? `${(value / 1000).toFixed(0)}` : value}k`
-      }
-    }
-  }
+const WeeklyOverview = (props: WeeklyOverviewProps) => {
 
-  return (
-    <Card>
-      <CardHeader
-        title='Weekly Overview'
-        titleTypographyProps={{
-          sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' }
-        }}
-        action={
-          <IconButton size='small' aria-label='settings' className='card-more-options' sx={{ color: 'text.secondary' }}>
-            <DotsVertical />
-          </IconButton>
+    const options: ApexOptions = {
+        chart: {
+            parentHeightOffset: 0,
+            toolbar: {show: false},
+            zoom: {enabled: false},
+            type: "line"
+        },
+        stroke: {
+            width: 2,
+            curve: 'smooth'
+        },
+        colors: ["#448aff", "#00695c", "#ff5252"],
+        legend: {
+            show: true,
+            position: 'top'
+        },
+        grid: {
+            strokeDashArray: 7,
+            padding: {
+                top: -1,
+                right: 0,
+                left: -12,
+                bottom: 5
+            }
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        // states: {
+        //     hover: {
+        //         filter: {type: 'none'}
+        //     },
+        //     active: {
+        //         filter: {type: 'none'}
+        //     }
+        // },
+        // colors: [
+        //     theme.palette.primary.main
+        // ],
+        xaxis: {
+            categories: (() => {
+                const today = moment.tz('Asia/Shanghai').startOf('day');
+                const days: string[] = [];
+                const start = today.clone().subtract(6, 'days');
+                for (let i = 0; i < 7; i++) {
+                    days.push(start.clone().add(i, 'days').format('MM-DD'));
+                }
+                return days;
+            })(),
+            tickPlacement: 'on',
+            labels: {show: true},
+            axisTicks: {show: true},
+            axisBorder: {show: true}
+        },
+        yaxis: {
+            show: true,
+            tickAmount: 4,
+            labels: {
+                offsetX: -17,
+            }
         }
-      />
-      <CardContent sx={{ '& .apexcharts-xcrosshairs.apexcharts-active': { opacity: 0 } }}>
-        <ReactApexcharts type='bar' height={205} options={options} series={[{ data: [37, 57, 45, 75, 57, 40, 65] }]} />
-        <Box sx={{ mb: 7, display: 'flex', alignItems: 'center' }}>
-          <Typography variant='h5' sx={{ mr: 4 }}>
-            45%
-          </Typography>
-          <Typography variant='body2'>Your sales performance is 45% 😎 better compared to last month</Typography>
-        </Box>
-        <Button fullWidth variant='contained'>
-          Details
-        </Button>
-      </CardContent>
-    </Card>
-  )
+    }
+
+    return (
+        <Card>
+            <CardHeader
+                title='单词背诵'
+                titleTypographyProps={{
+                    sx: {lineHeight: '2rem !important', letterSpacing: '0.15px !important'}
+                }}
+                // action={
+                //     <IconButton size='small' aria-label='settings' className='card-more-options'
+                //                 sx={{color: 'text.secondary'}}>
+                //         <DotsVertical/>
+                //     </IconButton>
+                // }
+            />
+            <CardContent>
+                <ReactApexcharts type='line' height={312} options={options}
+                                 series={
+                                     [
+                                         {name: "学习", data: props.learn},
+                                         {name: "复习", data: props.review},
+                                         {name: "时长", data: props.duration}
+                                     ]
+                                 }/>
+            </CardContent>
+        </Card>
+    )
 }
 
 export default WeeklyOverview

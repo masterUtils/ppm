@@ -7,18 +7,23 @@ export type ProblemReqData = {
   sourceBookId?: number,
 }
 
-export default async function handler(
-  request: NextApiRequest,
-  response: NextApiResponse
-) {
-  if (request.method !== "PUT") {
-    response.status(405).json({ message: "Method Not Allowed" });
-    return;
-  }
-
+async function putHandler(request: NextApiRequest, response: NextApiResponse) {
   const data: ProblemReqData = request.body;
 
   const result = await prisma.problem.create({ data });
 
   response.status(200).json(result);
+}
+
+export default async function handler(
+  request: NextApiRequest,
+  response: NextApiResponse
+) {
+  switch (request.method) {
+    case "PUT":
+      await putHandler(request, response);
+      break;
+    default:
+      response.status(405).end();
+  }
 }

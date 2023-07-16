@@ -87,7 +87,7 @@ const StatisticsCard = () => {
       sx={{height: '100%'}}
     >
       <CardHeader
-        title='Statistics Card'
+        title='今日进度'
         action={
           <IconButton size='small' aria-label='settings' className='card-more-options' sx={{ color: 'text.secondary' }}>
             <DotsVertical />

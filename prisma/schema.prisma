@@ -1,6 +1,5 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["jsonProtocol"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -28,7 +27,7 @@ model User {
   createdAt DateTime @default(now())
 
   bbdcID      String?
-  WordsRecord WordsRecord[]
+  wordsRecord WordsRecord[]
 }
 
 model Problem {
@@ -36,10 +35,10 @@ model Problem {
   name         String        @unique
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
-  solve_record SolveRecord[]
+  solveRecords SolveRecord[]
   picUrl       String?
-  answerUrl    String?
-  SourceBook   SourceBook?   @relation(fields: [sourceBookId], references: [id])
+  subject      Subject
+  sourceBook   SourceBook?   @relation(fields: [sourceBookId], references: [id])
   sourceBookId Int?
 }
 
@@ -54,12 +53,13 @@ model SourceBook {
 }
 
 model SolveRecord {
-  id         Int      @id @default(autoincrement())
-  problem    Problem  @relation(fields: [problemId], references: [id])
-  problemId  Int
-  oneNoteUrl String
-  result     Result
-  createdAt  DateTime @default(now())
+  id               Int      @id @default(autoincrement())
+  problem          Problem  @relation(fields: [problemId], references: [id])
+  problemId        Int
+  oneNoteWebUrl    String
+  oneNoteClientUrl String
+  result           Result
+  createdAt        DateTime @default(now())
 }
 
 model WordsRecord {

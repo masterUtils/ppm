@@ -81,18 +81,11 @@ const renderStats = () => {
   ))
 }
 
-const StatisticsCard = () => {
+const TodayStatisticsCard = () => {
   return (
-    <Card
-      sx={{height: '100%'}}
-    >
+    <Card>
       <CardHeader
         title='今日进度'
-        action={
-          <IconButton size='small' aria-label='settings' className='card-more-options' sx={{ color: 'text.secondary' }}>
-            <DotsVertical />
-          </IconButton>
-        }
         titleTypographyProps={{
           sx: {
             mb: 2.5,
@@ -110,4 +103,4 @@ const StatisticsCard = () => {
   )
 }
 
-export default StatisticsCard
+export default TodayStatisticsCard

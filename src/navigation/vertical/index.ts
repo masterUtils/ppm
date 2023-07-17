@@ -6,6 +6,7 @@ import CreditCardOutline from 'mdi-material-ui/AccountSettingsOutline'
 
 // ** Type import
 import {VerticalNavItemsType} from 'src/@core/layouts/types'
+import {Bookshelf} from "mdi-material-ui";
 
 const navigation = (): VerticalNavItemsType => {
     return [
@@ -28,9 +29,14 @@ const navigation = (): VerticalNavItemsType => {
             path: '/problems'
         },
         {
+            title: "书籍",
+            icon: Bookshelf,
+            path: "/books"
+        },
+        {
             title: '做题记录',
             icon: CubeOutline,
-            path: '/problems/records'
+            path: '/records'
         }
     ]
 }

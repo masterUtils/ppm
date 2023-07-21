@@ -43,13 +43,13 @@ model Problem {
 }
 
 model SourceBook {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
-  problems  Problem[]
-  subject   Subject
-  pdfUrl    String
-  answerUrl String
-  createdAt DateTime  @default(now())
+  id         Int       @id @default(autoincrement())
+  name       String    @unique
+  problems   Problem[]
+  subject    Subject
+  pagePics   String[]
+  answerPics String[]
+  createdAt  DateTime  @default(now())
 }
 
 model SolveRecord {
